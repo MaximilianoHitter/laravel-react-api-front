@@ -1,8 +1,10 @@
 import { Link, Routes, Route } from "react-router-dom";
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import useAuthContext from "./context/AuthContext";
+import AuthLayout from "./layouts/AuthLayout";
+import GuestLayout from "./layouts/GuestLayout";
 
 function App() {
   const {user, logout} = useAuthContext();
@@ -11,9 +13,6 @@ function App() {
     <div className="bg-slate-100 min-h-screen">
       <nav className="rounder bg-black text-white px-2 py-2.5 sm:px-4 w-full mx-auto">
         <div className="container mx-auto flex flex-col items-center justify-between hidden max-w-6xl mx-auto md:block md:w-auto sm:block sm:w-auto">
-        <button href="https://github.com/MaximilianoHitter" className="block rounded py-2 pr-4 pl-3 text-white">
-            Maximiliano Hitter
-          </button>
             <ul
           className="mt-4 flex flex-col flex-end rounded-lg p-4 md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium sm:flex-col sm:space-x-0 sm:text-sm sm:font-medium">
             
@@ -55,9 +54,13 @@ function App() {
       </nav>
       <div className="max-w-7xl mx-auto mt-6">
         <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
+          <Route element={<AuthLayout/>}>
+            <Route path="/" element={<Home/>}/>
+          </Route>
+          <Route element={<GuestLayout/>}>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
+          </Route>
         </Routes>
       </div>
     </div>
