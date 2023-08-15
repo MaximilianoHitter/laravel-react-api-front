@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         try {
             await axios.post('/login', { email: email, password: password });
             setSending('false');
-            getUser();
+            await getUser();
             navigate('/');
         } catch (e) {
             //console.log(e);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         setSending('true');
         try {
             await axios.post('/register', {name: nombre, email: email, password: password, password_confirmation:passconfirm});
-            getUser();
+            await getUser();
             setSending('false');
             navigate('/');
         } catch (e) {
@@ -51,7 +51,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    return <AuthContext.Provider value={{user, errors, getUser, sending, login, register}}>
+    const logout = () => {
+        axios.post('/logout').then(()=>{
+            setUser(null);
+        })
+    }
+
+    return <AuthContext.Provider value={{user, errors, getUser, sending, login, register, logout}}>
         {children}
     </AuthContext.Provider>
 
