@@ -1,23 +1,37 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import useAuthContext from '../context/AuthContext';
+import { Link, useNavigate} from 'react-router-dom';
 
 const Register = () => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passconfirm, setPassconfirm] = useState('');
+  const navigate = useNavigate();
 
   const changeNombre = (e)=>{setNombre(e.target.value)}
   const changeEmail = (e)=>{setEmail(e.target.value)}
   const changePassword = (e)=>{setPassword(e.target.value)}
   const changePasswordconfirm = (e)=>{setPassconfirm(e.target.value)}
 
-  const {register, errors, sending} = useAuthContext();
+  const {register, errors, sending, user, getUser} = useAuthContext();
 
   const handleRegister = async (event)=>{
     event.preventDefault();
     register({nombre, email, password, passconfirm});
   }
+
+  useEffect(()=>{
+    if(!user){
+      getUser();
+      if(user){
+        navigate('/');
+      }
+    }else{
+      navigate('/');
+    }
+  }, []);
+
 
   return (
     <section className=' py-10 lg:py-10'>
@@ -97,7 +111,13 @@ const Register = () => {
                     Registrarse</button>
                 </div>
               </form>
-              
+              {/* Botón de login */}
+              <Link
+              to="/login"
+              className='mb-2 px-3 inline-block text-base text-gray-400 hover:underline'
+              > 
+                ¿Ya posee cuenta?
+              </Link>
             </div>
           </div>
         </div>

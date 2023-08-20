@@ -1,10 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {useState} from 'react'
 import useAuthContext from '../context/AuthContext'
 
 const Login = () => {
-  const {login, errors, sending} = useAuthContext();
+  const {login, errors, sending, user, getUser} = useAuthContext();
+  const navigate = useNavigate();
 
   const handleLogin = async (event)=>{
     event.preventDefault();
@@ -22,6 +23,17 @@ const Login = () => {
   const changePassword = (e)=>{
     setPassword(e.target.value);
   }
+
+  useEffect(()=>{
+    if(!user){
+      getUser();
+      if(user){
+        navigate('/');
+      }
+    }else{
+      navigate('/');
+    }
+  }, []);
 
   return (
     <section className=' py-10 lg:py-10'>

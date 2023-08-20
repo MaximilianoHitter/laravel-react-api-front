@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from '../api/axios';
+import axios, {customAxios} from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext({});
@@ -13,8 +13,10 @@ export const AuthProvider = ({ children }) => {
     const csrf = () => axios.get('/sanctum/csrf-cookie');
 
     const getUser = async () => {
-        const { data } = await axios.get('/api/user');
-        setUser(data);
+        await axios.get('/api/user')
+            .then(function (response){
+                setUser(response.data);
+            });
     }
 
     const login = async ({ email, password }) => {
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }) => {
             setSending('false');
             await getUser();
             navigate('/');
+            setErrors([]);
         } catch (e) {
             //console.log(e);
             if (e.response.status === 422) {
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }) => {
             await getUser();
             setSending('false');
             navigate('/');
+            setErrors([]);
         } catch (e) {
             //console.log(e);
             if (e.response.status === 422) {
@@ -57,13 +61,7 @@ export const AuthProvider = ({ children }) => {
         })
     }
 
-    useEffect(()=>{
-        if(!user){
-          getUser();
-        }
-    }, []);
-
-    return <AuthContext.Provider value={{user, errors, getUser, sending, login, register, logout}}>
+    return <AuthContext.Provider value={{user, errors, getUser, sending, login, register, logout, csrf}}>
         {children}
     </AuthContext.Provider>
 

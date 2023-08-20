@@ -4,7 +4,7 @@ import useAuthContext from '../context/AuthContext'
 
 const GuestLayout = () => {
     const {user} = useAuthContext();
-    return !user ? <Outlet/> : <Navigate to={'/login'}/>
+    return !user ? <Outlet/> : <Navigate to={'/'}/>
 }
 
 export default GuestLayout
