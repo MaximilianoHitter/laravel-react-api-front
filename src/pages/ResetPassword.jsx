@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from '../api/axios';
 import useAuthContext from '../context/AuthContext';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
@@ -11,12 +11,22 @@ const ResetPassword = () => {
     const [errors, setErrors] = useState([]);
     const [status, setStatus] = useState(null);
     const [sending, setSending] = useState('false');
-    const {csrf} = useAuthContext();
+    const {csrf, user, getUser} = useAuthContext();
+    const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
 
     useEffect(()=>{
         setEmail(searchParams.get('email'));
+        setErrors([]);
+          if(!user){
+            getUser();
+            if(user){
+              navigate('/');
+            }
+          }else{
+            navigate('/');
+          }
     }, [])
 
     const changePassword = (e)=>{setPassword(e.target.value)}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState, useEffect} from 'react'
 import axios from '../api/axios';
 import useAuthContext from '../context/AuthContext';
 
@@ -7,11 +7,23 @@ const ForgotPassword = () => {
     const [errors, setErrors] = useState([]);
     const [status, setStatus] = useState(null);
     const [sending, setSending] = useState('false');
-    const {csrf} = useAuthContext();
+    const {csrf, getUser, user} = useAuthContext();
 
     const changeEmail = (e)=>{
         setEmail(e.target.value);
     }
+
+    useEffect(()=>{
+      setErrors([]);
+      if(!user){
+        getUser();
+        if(user){
+          navigate('/');
+        }
+      }else{
+        navigate('/');
+      }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
