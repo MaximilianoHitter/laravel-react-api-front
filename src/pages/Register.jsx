@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import useAuthContext from '../context/AuthContext';
 import { Link, useNavigate} from 'react-router-dom';
 
+
 const Register = () => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const Register = () => {
   const changePassword = (e)=>{setPassword(e.target.value)}
   const changePasswordconfirm = (e)=>{setPassconfirm(e.target.value)}
 
-  const {register, errors, sending, user, getUser} = useAuthContext();
+  const {register, errors, sending, user, getUser, setErrors} = useAuthContext();
 
   const handleRegister = async (event)=>{
     event.preventDefault();
@@ -22,6 +23,7 @@ const Register = () => {
   }
 
   useEffect(()=>{
+    setErrors([]);
     if(!user){
       getUser();
       if(user){

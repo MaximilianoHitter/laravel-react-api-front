@@ -42,6 +42,7 @@ const ForgotPassword = () => {
             className='bg-black text-white relative mx-auto max-w-[525px] overflow-hidden rounded-lg py-16 px-10 text-center sm:px-12 md:px-[60px]'
             >
                 {status && <div className='bg-green-700 m-2 p-2 rounded text-white'>{status}</div>}
+                <div className='mb-10 text-center md:mb-16'>Recuperar Contraseña</div>
               <form onSubmit={handleSubmit}>
                 {/* Input de email con error */}
                 <div className='mb-2'>

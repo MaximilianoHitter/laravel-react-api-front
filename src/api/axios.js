@@ -9,3 +9,9 @@ export const customAxios = axios.create({
     baseURL: 'http://localhost:8000',
     withCredentials: true
 })
+
+/* axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    return error;  
+}) */
