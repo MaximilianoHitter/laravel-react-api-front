@@ -18,6 +18,14 @@ const AuthLayout = () => {
               >
               Home</Link>
             </li>
+            <li>
+              <Link
+              to="/tasks"
+              className="block rounded py-2 pr-4 pl-3 text-white"
+              aria-current="page"
+              >
+              Tasks</Link>
+            </li>
             {user ? <>
               <li>
               <button onClick={logout}

@@ -6,6 +6,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import AuthLayout from "./layouts/AuthLayout";
 import GuestLayout from "./layouts/GuestLayout";
+import Task from "./pages/Task";
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route element={<AuthLayout/>}>
             <Route path="/" element={<Home/>}/>
+            <Route path="/tasks" element={<Task/>}/>
           </Route>
           <Route element={<GuestLayout/>}>
             <Route path="/login" element={<Login/>}/>
